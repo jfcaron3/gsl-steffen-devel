@@ -326,8 +326,8 @@ steffen_eval_integ (const void * vstate,
 
 	/* Check if we are at a boundary point, so take the a and b parameters */
 	/* instead of the data points. */
-	double x1 = (i == index_a) ? a : x_lo;
-	double x2 = (i == index_b) ? b : x_hi;
+	double x1 = (i == index_a) ? a-x_lo : 0.0;
+	double x2 = (i == index_b) ? b-x_lo : x_hi-x_lo;
 
 	*result += (1.0/4.0)*state->a[i]*(x2*x2*x2*x2 - x1*x1*x1*x1)
 	  +(1.0/3.0)*state->b[i]*(x2*x2*x2 - x1*x1*x1)
