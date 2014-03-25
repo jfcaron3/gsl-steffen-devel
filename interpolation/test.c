@@ -962,6 +962,27 @@ test_akima (void)
   return s;
 }
 
+static int
+test_steffen (void)
+{
+  int s;
+
+  double data_x[5] = { 0.0, 1.0, 2.0, 3.0, 4.0 };
+  double data_y[5] = { 0.0, 1.0, 2.0, 3.0, 4.0 };
+  double test_x[4] = { 0.0, 0.5, 1.0, 2.0 };
+  double test_y[4] = { 0.0, 0.5, 1.0, 2.0 };
+  double test_dy[4] = { 1.0, 1.0, 1.0, 1.0 };
+  double test_iy[4] = { 0.0, 0.125, 0.5, 2.0 };
+
+  xy_table data_table = make_xy_table(data_x, data_y, 5);
+  xy_table test_table = make_xy_table(test_x, test_y, 4);
+  xy_table test_d_table = make_xy_table(test_x, test_dy, 4);
+  xy_table test_i_table = make_xy_table(test_x, test_iy, 4);
+
+  s = test_interp (&data_table, gsl_interp_steffen, &test_table, &test_d_table, &test_i_table);
+  gsl_test (s, "steffen interpolation");
+  return s;
+}
 
 int 
 main (int argc, char **argv)
@@ -982,6 +1003,7 @@ main (int argc, char **argv)
   status += test_csplinep();
   status += test_csplinep2();
   status += test_akima();
+  status += test_steffen();
 
   exit (gsl_test_summary());
 }
